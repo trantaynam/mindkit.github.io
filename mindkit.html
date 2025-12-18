@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindKit - Không gian an trú cho tâm trí</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #E8F5E9 0%, #B2DFDB 50%, #FFE0B2 100%);
+            transition: background 0.8s ease;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2E7D32;
+            letter-spacing: -1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #37474F;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #2E7D32;
+        }
+
+        .emergency-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #FFCDD2, #EF9A9A);
+            border: none;
+            border-radius: 25px;
+            color: #B71C1C;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(239, 154, 154, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .emergency-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 5%;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: #1B5E20;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: fadeInUp 1s ease;
+        }
+
+        .mood-slider-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 40px 0;
+        }
+
+        .mood-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #546E7A;
+            font-weight: 500;
+        }
+
+        .mood-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 10px;
+            outline: none;
+            background: linear-gradient(to right, #B71C1C, #FFA726, #66BB6A);
+            cursor: pointer;
+        }
+
+        .mood-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .cta-btn {
+            margin-top: 40px;
+            padding: 18px 50px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #66BB6A, #43A047);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 6px 25px rgba(67, 160, 71, 0.4);
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(67, 160, 71, 0.5);
+        }
+
+        /* 3D Shapes Animation */
+        .shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape1 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #81C784, #66BB6A);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape2 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #4DD0E1, #0097A7);
+            border-radius: 50%;
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        .shape3 {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #FFB74D, #FFA726);
+            border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -30px) rotate(90deg); }
+            50% { transform: translate(0, -60px) rotate(180deg); }
+            75% { transform: translate(-30px, -30px) rotate(270deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Bento Grid Section */
+        .dashboard {
+            padding: 80px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: #1B5E20;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 80px;
+        }
+
+        .bento-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .bento-card h3 {
+            color: #2E7D32;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .bento-card p {
+            color: #546E7A;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-btn {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #81C784, #66BB6A);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .card-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Breathe Circle */
+        .breathe-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 0;
+        }
+
+        .breathe-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4DD0E1, #0097A7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            box-shadow: 0 10px 40px rgba(77, 208, 225, 0.4);
+            cursor: pointer;
+            transition: all 4s ease-in-out;
+        }
+
+        .breathe-circle.active {
+            transform: scale(1.5);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(38, 50, 56, 0.95);
+            color: white;
+            padding: 40px 5%;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 10px 0;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">🌊 MindKit</div>
+        <nav>
+            <a href="#explore">Khám phá bản thân</a>
+            <a href="#library">Kho tài liệu</a>
+            <a href="#connect">Kết nối chuyên gia</a>
+            <a href="#about">Về chúng tôi</a>
+        </nav>
+        <button class="emergency-btn">🆘 Hỗ trợ khẩn cấp</button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="shapes">
+            <div class="shape shape1"></div>
+            <div class="shape shape2"></div>
+            <div class="shape shape3"></div>
+        </div>
+        
+        <h1>Hôm nay, tâm trí bạn màu gì?</h1>
+        
+        <div class="mood-slider-container">
+            <div class="mood-label">
+                <span>😔 Kiệt sức</span>
+                <span>😊 Tràn đầy năng lượng</span>
+            </div>
+            <input type="range" min="0" max="100" value="50" class="mood-slider" id="moodSlider">
+        </div>
+
+        <button class="cta-btn" onclick="startJourney()">Bắt đầu hành trình 2 phút ✨</button>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard" id="explore">
+        <h2 class="section-title">Hệ sinh thái chăm sóc tâm trí</h2>
+        
+        <div class="bento-grid">
+            <div class="bento-card">
+                <h3>📊 Check-point</h3>
+                <p>Khám phá tình trạng tinh thần hiện tại của bạn qua các bài đánh giá khoa học PHQ-9, GAD-7, PSS-10</p>
+                <button class="card-btn">Bắt đầu đánh giá</button>
+            </div>
+
+            <div class="bento-card">
+                <h3>📚 Mindful Library</h3>
+                <p>Khám phá kho tài liệu được phân loại theo tâm trạng: Đang lo âu, Cần động lực, Khó ngủ</p>
+                <button class="card-btn">Khám phá thư viện</button>
+            </div>
+
+            <div class="bento-card">
+                <h3>🧘 Self-Care Toolbox</h3>
+                <p>Công cụ thực hành ngay: Tập thở, Nhật ký số, Thiền chánh niệm</p>
+                <button class="card-btn">Mở hộp công cụ</button>
+            </div>
+
+            <div class="bento-card">
+                <h3>🌉 The Bridge</h3>
+                <p>Kết nối với chuyên gia tâm lý gần bạn, phù hợp với nhu cầu và ngân sách</p>
+                <button class="card-btn">Tìm chuyên gia</button>
+            </div>
+
+            <div class="bento-card">
+                <h3>🌱 Mind Garden</h3>
+                <p>Theo dõi hành trình sức khỏe tinh thần qua khu vườn tâm trí của riêng bạn</p>
+                <button class="card-btn">Xem khu vườn</button>
+            </div>
+
+            <div class="bento-card">
+                <h3>📄 Báo cáo chi tiết</h3>
+                <p>Nhận báo cáo Mind-Map PDF với lộ trình cá nhân hóa dựa trên khoa học</p>
+                <button class="card-btn">Tạo báo cáo</button>
+            </div>
+        </div>
+
+        <!-- Breathe Section -->
+        <h2 class="section-title">Thở cùng tôi</h2>
+        <div class="breathe-container">
+            <div class="breathe-circle" id="breatheCircle" onclick="toggleBreathe()">
+                Nhấn để bắt đầu
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>MindKit - Không gian an trú cho tâm trí</strong></p>
+        <p>🔒 Hoàn toàn ẩn danh | 🛡️ Bảo mật tối đa | 💚 Dựa trên khoa học</p>
+        <p>© 2024 MindKit. Được phát triển với tình yêu thương.</p>
+    </footer>
+
+    <script>
+        // Mood Slider - Change background
+        const slider = document.getElementById('moodSlider');
+        const body = document.body;
+
+        slider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            
+            if (value < 33) {
+                body.style.background = 'linear-gradient(135deg, #FFCCBC 0%, #FFAB91 50%, #FF8A65 100%)';
+            } else if (value < 66) {
+                body.style.background = 'linear-gradient(135deg, #FFF9C4 0%, #FFF59D 50%, #FFE082 100%)';
+            } else {
+                body.style.background = 'linear-gradient(135deg, #E8F5E9 0%, #B2DFDB 50%, #80CBC4 100%)';
+            }
+        });
+
+        // Start Journey
+        function startJourney() {
+            alert('🌟 Chào mừng bạn đến với hành trình tự khám phá!\n\nChúng ta sẽ bắt đầu với một bài đánh giá nhẹ nhàng để hiểu về tâm trạng của bạn.');
+        }
+
+        // Breathe Animation
+        let isBreathing = false;
+        let breatheInterval;
+
+        function toggleBreathe() {
+            const circle = document.getElementById('breatheCircle');
+            
+            if (!isBreathing) {
+                isBreathing = true;
+                circle.textContent = 'Hít vào...';
+                circle.classList.add('active');
+                
+                breatheInterval = setInterval(() => {
+                    if (circle.classList.contains('active')) {
+                        circle.classList.remove('active');
+                        circle.textContent = 'Thở ra...';
+                    } else {
+                        circle.classList.add('active');
+                        circle.textContent = 'Hít vào...';
+                    }
+                }, 4000);
+            } else {
+                isBreathing = false;
+                clearInterval(breatheInterval);
+                circle.classList.remove('active');
+                circle.textContent = 'Nhấn để bắt đầu';
+            }
+        }
+
+        // Emergency Button
+        document.querySelector('.emergency-btn').addEventListener('click', () => {
+            alert('🆘 ĐƯỜNG DÂY NÓng HỖ TRỢ TÂM LÝ:\n\n📞 Hotline 24/7: 1900-xxxx\n💬 Chat trực tuyến: mindkit.vn/chat\n\nBạn không đơn độc. Chúng tôi luôn sẵn sàng lắng nghe.');
+        });
+    </script>
+</body>
+</html>
